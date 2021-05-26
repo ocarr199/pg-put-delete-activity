@@ -3,6 +3,7 @@ $(document).ready(function(){
   refreshBooks();
   addClickHandlers();
   $('#bookShelf').on('click', '.delete-book', deletebookHandler);
+  $('#bookShelf').on('click', '.have-read', readItHandler);
 });
 
 function addClickHandlers() {
@@ -59,7 +60,9 @@ function renderBooks(books) {
       <tr>
         <td>${book.title}</td>
         <td>${book.author}</td>
+        // <td>${book.isRead}</td>
         <td><button class="delete-book" data-id=${book.id}>DELETE</button></td>
+        <td><button class="have-read" data-id=${book.id}>Have Read</button></td>
       </tr>
     `);
   }
@@ -81,3 +84,28 @@ function deleteBook(bookId){
   });
 }
 
+function readItHandler)(){
+reddit($(this).data('id'), false)
+}
+
+function reddit(){
+
+}
+
+function reddit(bookId, haveVoted) {
+  $.ajax({
+      method: 'PUT',
+      url: `/books/${bookId}`,
+      data: {
+        read: haveVoted
+      }
+  })
+  .then(response => {
+      console.log('#IVoted');
+      getMusicData();
+  })
+  .catch(err => {
+      console.log(`No votes allowed.`);
+      alert('There was a problem with your ballot.');
+  });
+}

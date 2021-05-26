@@ -38,36 +38,34 @@ router.post('/',  (req, res) => {
 // Updates a book to show that it has been read
 // Request must include a parameter indicating what book to update - the id
 // Request body must include the content to update - the status
-// router.put('/:id', (req, res) => {
-//   const songId = req.params.id;
+router.put('/:id', (req, res) => {
+  const bookId = req.params.id;
 
-//   // Change the rank of the song by the user ...
-//   // expected values = 'up' OR 'down';
-//   let direction = req.body.direction;
 
-//   let queryString = '';
+  let direction = req.body.haveRead;
 
-//   if (direction === 'up') {
-//       queryString = 'UPDATE "songs" SET "rank"=rank-1 WHERE "songs".id = $1;';
-//   } else if(direction === 'down') {
-//       queryString = 'UPDATE "songs" SET "rank"=rank+1 WHERE "songs".id = $1;';
-//   } else {
-//       // If the direction is somehow not what we expect, we reject the response and send
-//       // back a 500 error.
-//       res.sendStatus(500);
-//       return; // early exit since it's an error!
-//   }
+  let queryString = '';
 
-//   pool.query(queryString, [songId])
-//       .then(response => {
-//           console.log(response.rowCount);
-//           res.sendStatus(202);
-//       })
-//       .catch(err => {
-//           console.log('This is frustrating.', err);
-//           res.sendStatus(500);
-//       });
-// })
+  if (heavRead === "false") {
+      queryString = 'UPDATE "books" SET "isRead"=true WHERE "songs".id = $1;';
+  } 
+   else {
+      // If the direction is somehow not what we expect, we reject the response and send
+      // back a 500 error.
+      res.sendStatus(500);
+      return; // early exit since it's an error!
+  }
+
+  pool.query(queryString, [bookId])
+      .then(response => {
+          console.log(response.rowCount);
+          res.sendStatus(202);
+      })
+      .catch(err => {
+          console.log('This is frustrating.', err);
+          res.sendStatus(500);
+      });
+})
 
 // TODO - DELETE 
 // Removes a book to show that it has been read
