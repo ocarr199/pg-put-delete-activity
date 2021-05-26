@@ -2,6 +2,7 @@ $(document).ready(function(){
   console.log('jQuery sourced.');
   refreshBooks();
   addClickHandlers();
+  $('#bookShelf').on('click', '.delete-book', deletebookHandler);
 });
 
 function addClickHandlers() {
@@ -58,7 +59,25 @@ function renderBooks(books) {
       <tr>
         <td>${book.title}</td>
         <td>${book.author}</td>
+        <td><button class="delete-book" data-id=${book.id}>DELETE</button></td>
       </tr>
     `);
   }
 }
+
+function deletebookHandler() {
+  deleteBook($(this).data("id"));
+}
+
+function deleteBook(bookId){
+  $.ajax({
+    method: 'DELETE',
+    url: `/books/${bookId}`
+  }).then(response => {
+    console.log('DELETED');
+  refreshBooks();
+  }).catch(err => {
+    alert('There was a problem deleting that book. Please try again.', err);
+  });
+}
+

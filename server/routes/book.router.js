@@ -38,11 +38,60 @@ router.post('/',  (req, res) => {
 // Updates a book to show that it has been read
 // Request must include a parameter indicating what book to update - the id
 // Request body must include the content to update - the status
+// router.put('/:id', (req, res) => {
+//   const songId = req.params.id;
 
+//   // Change the rank of the song by the user ...
+//   // expected values = 'up' OR 'down';
+//   let direction = req.body.direction;
+
+//   let queryString = '';
+
+//   if (direction === 'up') {
+//       queryString = 'UPDATE "songs" SET "rank"=rank-1 WHERE "songs".id = $1;';
+//   } else if(direction === 'down') {
+//       queryString = 'UPDATE "songs" SET "rank"=rank+1 WHERE "songs".id = $1;';
+//   } else {
+//       // If the direction is somehow not what we expect, we reject the response and send
+//       // back a 500 error.
+//       res.sendStatus(500);
+//       return; // early exit since it's an error!
+//   }
+
+//   pool.query(queryString, [songId])
+//       .then(response => {
+//           console.log(response.rowCount);
+//           res.sendStatus(202);
+//       })
+//       .catch(err => {
+//           console.log('This is frustrating.', err);
+//           res.sendStatus(500);
+//       });
+// })
 
 // TODO - DELETE 
 // Removes a book to show that it has been read
 // Request must include a parameter indicating what book to update - the id
+
+
+
+router.delete('/:id', (req, res) => {
+  // grab the id of the record to delete from the request params ...
+  const itemToDelete = req.params.id;
+  const queryString = `DELETE FROM "books" WHERE "books".id = $1;`;
+  pool.query(queryString, [itemToDelete])
+      // don't need parens around single argument for arrow function ...
+      // same as .then((response) => {});
+      .then(response => {
+          console.log(`We deleted book with id ${itemToDelete}.`);
+          // res.send('Ding dong the witch is dead!').sendStatus(200);
+          res.sendStatus(200);
+      })
+      .catch(err => { // MUST have a catch for promises ...
+          console.log('You done messed up, A-A-Ron!', err);
+          res.sendStatus(500); // Always send a 500 for an error in the process.
+      });
+});
 
 
 module.exports = router;
