@@ -84,7 +84,7 @@ function deleteBook(bookId){
   });
 }
 
-function readItHandler)(){
+function readItHandler(){
 reddit($(this).data('id'), false)
 }
 
@@ -101,8 +101,8 @@ function reddit(bookId, haveVoted) {
       }
   })
   .then(response => {
-      console.log('#IVoted');
-      getMusicData();
+      console.log('I read it');
+     refreshBooks();
   })
   .catch(err => {
       console.log(`No votes allowed.`);

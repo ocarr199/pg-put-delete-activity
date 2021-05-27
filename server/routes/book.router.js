@@ -41,13 +41,12 @@ router.post('/',  (req, res) => {
 router.put('/:id', (req, res) => {
   const bookId = req.params.id;
 
-
-  let direction = req.body.haveRead;
+  let read = req.body.read;
 
   let queryString = '';
 
-  if (heavRead === "false") {
-      queryString = 'UPDATE "books" SET "isRead"=true WHERE "songs".id = $1;';
+  if (read === false) {
+      queryString = 'UPDATE "books" SET "isRead"=true WHERE "books".id = $1;';
   } 
    else {
       // If the direction is somehow not what we expect, we reject the response and send
