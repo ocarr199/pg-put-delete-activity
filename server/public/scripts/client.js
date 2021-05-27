@@ -85,7 +85,7 @@ function deleteBook(bookId){
 }
 
 function readItHandler(){
-reddit($(this).data('id'), false)
+reddit($(this).data('id'), true)
 }
 
 function reddit(){
@@ -97,7 +97,7 @@ function reddit(bookId, haveVoted) {
       method: 'PUT',
       url: `/books/${bookId}`,
       data: {
-        isRead: true
+        isRead: haveVoted
       }
   })
   .then(response => {
