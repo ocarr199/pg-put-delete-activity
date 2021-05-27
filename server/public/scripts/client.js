@@ -97,7 +97,7 @@ function reddit(bookId, haveVoted) {
       method: 'PUT',
       url: `/books/${bookId}`,
       data: {
-        read: haveVoted
+        isRead: true
       }
   })
   .then(response => {
